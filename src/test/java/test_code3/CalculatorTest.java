@@ -26,4 +26,11 @@ public class CalculatorTest {
 //        )
 //    }
 
+    @DisplayName("나눗셈해서 0을 나누는 경우 예외 발생")
+    @Test
+    void calculateExceptionTest () {
+        Assertions.assertThatCode(() -> Calculator.calculate(10, "/" , 0))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
 }

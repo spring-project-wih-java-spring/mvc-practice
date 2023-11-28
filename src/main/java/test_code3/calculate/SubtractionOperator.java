@@ -10,7 +10,7 @@ public class SubtractionOperator implements NewArithmeticOperator {
     }
 
     @Override
-    public int calculate(int operand1, String operator, int operand2) {
+    public int calculate(int operand1,  int operand2) {
         return operand1 - operand2;
     }
 }
