@@ -21,7 +21,7 @@ public class Calculator {
 //                .orElseThrow(() -> new IllegalArgumentException("올바른 사직연산이 아닙니다."));
 
         // 방법 2
-        return ArithmeticOperator.calculate(opperand1, operator, opperand2);
+        return ArithmeticOperator.calculate( opperand1, operator, opperand2);
 
         // 방법 1
 //        switch (operator) {

@@ -27,6 +27,9 @@ public enum ArithmeticOperator {
     DIV("/") {
         @Override
         public int arithmeticCalculate(int oper1, int oper2) {
+            if(oper2 == 0) {
+                throw new IllegalArgumentException("0으로는 나눌수 없습니다.");
+            }
             return oper1 / oper2;
         }
     };
