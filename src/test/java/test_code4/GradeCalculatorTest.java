@@ -1,5 +1,6 @@
 package test_code4;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -25,6 +26,7 @@ public class GradeCalculatorTest {
         GradeCalculator gradeCalculator = new GradeCalculator(courses);
         double gradeResult = gradeCalculator.calculate();
 
+        Assertions.assertThat(gradeResult).isEqualTo(4.5);
 
     }
 

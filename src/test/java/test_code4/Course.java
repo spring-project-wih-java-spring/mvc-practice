@@ -11,4 +11,33 @@ public class Course {
         this.creadit = creadit;
         this.grade = grade;
     }
+
+    public double getGradeToNumber() {
+        double grade = 0;
+        switch (this.grade) {
+            case "A+":
+                grade = 4.5;
+                break;
+            case "A":
+                grade = 4.0;
+                break;
+            case "B+":
+                grade = 3.5;
+                break;
+            case "B":
+                grade = 3.0;
+                break;
+            case "C+":
+                grade = 2.5;
+                break;
+            case "C":
+                grade = 2.0;
+                break;
+        }
+        return grade;
+    }
+
+    public int getCredit() {
+        return creadit;
+    }
 }
