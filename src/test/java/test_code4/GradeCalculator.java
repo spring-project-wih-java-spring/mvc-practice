@@ -13,7 +13,7 @@ public class GradeCalculator {
     public double calculate() {
         double res = 0.0;
         for (Course course : courses) {
-            res += course.getCredit() * course.getGradeToNumber();
+            res += course.multiplyCreditAndCourseGrade();
         }
 
         // 이수한 과목들의 총 학점수
