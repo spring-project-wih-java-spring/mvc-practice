@@ -16,6 +16,11 @@ public class GradeCalculator {
             res += course.getCredit() * course.getGradeToNumber();
         }
 
-        return 4.5;
+        // 이수한 과목들의 총 학점수
+        int totalCompletedCredit = courses.stream()
+                .mapToInt(Course::getCredit)
+                .sum();
+
+        return res/totalCompletedCredit;
     }
 }
