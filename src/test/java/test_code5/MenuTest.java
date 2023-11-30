@@ -21,6 +21,11 @@ public class MenuTest {
 
     @DisplayName("메뉴판에 없는 메뉴를 선택 시 예외 반환")
     @Test
-    void name() {
+    void chooseTest2() {
+        Menu menu = new Menu(Arrays.asList(new MenuItem("돈까스", 5000), new MenuItem("냉면", 7000)));
+
+        Assertions.assertThatCode(() -> menu.choose("통닭"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("잘못된 메뉴 이름입니다.");
     }
 }
