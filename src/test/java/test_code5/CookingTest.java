@@ -15,4 +15,12 @@ public class CookingTest {
 
         Assertions.assertThat(cook).isEqualTo(new Cook("돈까스", 5000));
     }
+
+    @DisplayName("요리를 생성")
+    @Test
+    void createTest() {
+        Assertions.assertThatCode(() -> new Cook("만두", 5000))
+                .doesNotThrowAnyException();
+    }
+
 }
