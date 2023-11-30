@@ -18,4 +18,9 @@ public class MenuTest {
 
         Assertions.assertThat(menuItem).isEqualTo(new MenuItem("돈까스", 5000));
     }
+
+    @DisplayName("메뉴판에 없는 메뉴를 선택 시 예외 반환")
+    @Test
+    void name() {
+    }
 }
