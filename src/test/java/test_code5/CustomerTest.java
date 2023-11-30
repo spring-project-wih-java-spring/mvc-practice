@@ -14,7 +14,7 @@ public class CustomerTest {
         Customer customer = new Customer();
         Menu menu = new Menu(Arrays.asList(new MenuItem("돈까스", 5000), new MenuItem("냉면", 7000)));
         Cooking cooking = new Cooking();
-        Assertions.assertThatCode(() -> customer.order("만두", menu, cooking))
+        Assertions.assertThatCode(() -> customer.order("돈까스", menu, cooking))
                 .doesNotThrowAnyException();
     }
 }
