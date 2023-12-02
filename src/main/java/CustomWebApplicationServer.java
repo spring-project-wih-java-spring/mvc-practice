@@ -1,3 +1,4 @@
+import HttpTest.ClientRequestHandler;
 import HttpTest.HttpRequest;
 import HttpTest.QueryStrings;
 import org.slf4j.Logger;
@@ -33,22 +34,7 @@ public class CustomWebApplicationServer {
             while ((clientSocket = serverSocket.accept()) != null) {
                 logger.info("[CustomWebApplicationServer] client connected");
 
-                try (InputStream in = clientSocket.getInputStream(); OutputStream out = clientSocket.getOutputStream();) {
-                    BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
-                    DataOutputStream dos = new DataOutputStream(out);
-
-                    HttpRequest httpRequest = new HttpRequest(br);
-
-                    if(httpRequest.isGetRequest() && httpRequest.matchPath("/calculate")){
-                        QueryStrings queryStrings = httpRequest.getQueryString();
-
-                        int operand1 = Integer.valueOf(queryStrings.getValue("operand1"));
-                        String operator = queryStrings.getValue("operator");;
-                        int operand2 = Integer.valueOf(queryStrings.getValue("operand2"));
-
-                        int result = Calculator.calculate(new PositiveNumber(operand1).toInt(), operator, new PositiveNumber(operand2).toInt());
-                    }
-                }
+                new Thread(new ClientRequestHandler(clientSocket)).start();
             }
 
         }
