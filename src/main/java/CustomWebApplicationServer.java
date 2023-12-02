@@ -33,7 +33,6 @@ public class CustomWebApplicationServer {
 
             while ((clientSocket = serverSocket.accept()) != null) {
                 logger.info("[CustomWebApplicationServer] client connected");
-
                 new Thread(new ClientRequestHandler(clientSocket)).start();
             }
 

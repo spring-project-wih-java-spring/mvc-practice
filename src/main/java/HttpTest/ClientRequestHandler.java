@@ -29,9 +29,9 @@ public class ClientRequestHandler implements Runnable{
             if(httpRequest.isGetRequest() && httpRequest.matchPath("/calculate")){
                 QueryStrings queryStrings = httpRequest.getQueryString();
 
-                int operand1 = Integer.valueOf(queryStrings.getValue("operand1"));
+                int operand1 = Integer.parseInt(queryStrings.getValue("operand1"));
                 String operator = queryStrings.getValue("operator");;
-                int operand2 = Integer.valueOf(queryStrings.getValue("operand2"));
+                int operand2 = Integer.parseInt(queryStrings.getValue("operand2"));
 
                 int result = Calculator.calculate(new PositiveNumber(operand1).toInt(), operator, new PositiveNumber(operand2).toInt());
                 byte[] body = String.valueOf(result).getBytes();
