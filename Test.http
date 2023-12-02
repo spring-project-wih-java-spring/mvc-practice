@@ -1,1 +1,1 @@
-GET http://localhost:8081
+GET http://localhost:8081/calculate?operand1=11&operator=*&operator2=55
