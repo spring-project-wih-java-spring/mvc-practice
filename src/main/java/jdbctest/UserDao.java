@@ -1,9 +1,6 @@
 package jdbctest;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UserDao {
 
@@ -34,16 +31,45 @@ public class UserDao {
             preparedStatement.setString(4, user.getEmail());
             preparedStatement.executeUpdate();
         } finally {
-            if(preparedStatement != null) {
+            if (preparedStatement != null) {
                 preparedStatement.close();
             }
 
-            if(connection != null) {
+            if (connection != null) {
                 connection.close();
             }
         }
     }
 
-    public User findByUserId(String wizard) {
+    public User findByUserId(String userId) throws SQLException {
+        Connection con = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            con = getConnection();
+            String sql = "select userId, password, name, email from USERS where userID = ?";
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, userId);
+            resultSet = preparedStatement.executeQuery();
+
+            User user = null;
+            if (resultSet.next()) {
+                user = new User(resultSet.getString("userId"), resultSet.getString("password"), resultSet.getString("name"), resultSet.getString("email"));
+            }
+
+            return user;
+        } finally {
+            if(resultSet != null) {
+                resultSet.close();
+            }
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+
+            if(con != null) {
+                con.close();
+            }
+        }
     }
 }
