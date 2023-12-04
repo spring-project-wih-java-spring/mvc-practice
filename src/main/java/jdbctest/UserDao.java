@@ -60,4 +60,15 @@ public class UserDao {
             }
         }
     }
+
+    public User findByUserId2() throws SQLException {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        String sql = "select userId, password, name, email from USERS where userID = ?";
+        return (User) jdbcTemplate.executeQuery(sql, new PreparedStatementSetter() {
+            @Override
+            public void setter(PreparedStatement pstmt) throws SQLException {
+
+            }
+        }, resultSet -> new User(resultSet.getString("userId"), resultSet.getString("password"), resultSet.getString("name"), resultSet.getString("email")));
+    }
 }
