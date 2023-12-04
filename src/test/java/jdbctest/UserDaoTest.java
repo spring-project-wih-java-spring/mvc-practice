@@ -7,6 +7,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
+import java.sql.SQLException;
+
 public class UserDaoTest {
 
     @BeforeEach
@@ -17,7 +19,7 @@ public class UserDaoTest {
     }
 
     @Test
-    void createTest() {
+    void createTest() throws SQLException {
         UserDao userDao = new UserDao();
         userDao.create(new User("wizard", "pw", "name", "email"));
         User user = userDao.findByUserId("wizard");
