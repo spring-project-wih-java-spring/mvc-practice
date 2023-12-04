@@ -22,7 +22,7 @@ public class UserDao {
         PreparedStatement preparedStatement = null;
 
         try {
-            connection = getConnection();
+            connection = ConnectionManager.getConnection();
             String sql = "insert into USERS values ( ?, ?, ?, ? )";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, user.getUserId());
@@ -47,7 +47,7 @@ public class UserDao {
         ResultSet resultSet = null;
 
         try {
-            con = getConnection();
+            con = ConnectionManager.getConnection();
             String sql = "select userId, password, name, email from USERS where userID = ?";
             preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, userId);
@@ -60,14 +60,14 @@ public class UserDao {
 
             return user;
         } finally {
-            if(resultSet != null) {
+            if (resultSet != null) {
                 resultSet.close();
             }
             if (preparedStatement != null) {
                 preparedStatement.close();
             }
 
-            if(con != null) {
+            if (con != null) {
                 con.close();
             }
         }
