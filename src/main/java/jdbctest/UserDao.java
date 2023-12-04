@@ -17,28 +17,16 @@ public class UserDao {
         }
     }
 
-    public void create(User user) throws SQLException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
 
-        try {
-            connection = ConnectionManager.getConnection();
-            String sql = "insert into USERS values ( ?, ?, ?, ? )";
-            preparedStatement = connection.prepareStatement(sql);
+    public void create(User user) throws SQLException {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        String sql = "insert into USERS values ( ?, ?, ?, ? )";
+        jdbcTemplate.executeUpdate(user, sql, preparedStatement -> {
             preparedStatement.setString(1, user.getUserId());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getName());
             preparedStatement.setString(4, user.getEmail());
-            preparedStatement.executeUpdate();
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-
-            if (connection != null) {
-                connection.close();
-            }
-        }
+        });
     }
 
     public User findByUserId(String userId) throws SQLException {
