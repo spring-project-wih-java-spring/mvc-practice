@@ -15,7 +15,7 @@ public class ReflectionTest {
 
     @Test
     void controllerScan() {
-        Reflections reflections = new Reflections("org.example");
+        Reflections reflections = new Reflections("reflection");
 
         Set<Class<?>> beans = new HashSet<>();
         beans.addAll(reflections.getTypesAnnotatedWith(Controller.class));
