@@ -1,5 +1,6 @@
 package front_pattern.mvc;
 
+import front_pattern.mvc.controller.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,8 +14,22 @@ import java.io.IOException;
 public class DispatcherServlet extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(DispatcherServlet.class);
+
+    private RequestMappingHandlerMapping requestMappingHandlerMapping;
+
+    @Override
+    public void init() throws ServletException {
+        requestMappingHandlerMapping.init();
+    }
+
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("DispatcherServlet service");
+        Controller handler = requestMappingHandlerMapping.findHandler(request.getRequestURI());
+        try {
+            String viewName = handler.handleRequest(request, response);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
