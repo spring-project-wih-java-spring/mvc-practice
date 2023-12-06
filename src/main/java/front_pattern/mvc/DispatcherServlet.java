@@ -4,6 +4,7 @@ import front_pattern.mvc.controller.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,6 +29,11 @@ public class DispatcherServlet extends HttpServlet {
         Controller handler = requestMappingHandlerMapping.findHandler(request.getRequestURI());
         try {
             String viewName = handler.handleRequest(request, response);
+
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(viewName);
+
+            requestDispatcher.forward(request, response);
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
