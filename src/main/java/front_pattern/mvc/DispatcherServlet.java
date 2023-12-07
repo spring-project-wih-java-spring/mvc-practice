@@ -1,8 +1,10 @@
 package front_pattern.mvc;
 
 import front_pattern.mvc.controller.Controller;
+import front_pattern.mvc.controller.HandlerKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reflection.anotation.RequestMethod;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,7 +28,7 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("DispatcherServlet service");
-        Controller handler = requestMappingHandlerMapping.findHandler(request.getRequestURI());
+        Controller handler = requestMappingHandlerMapping.findHandler(new HandlerKey(RequestMethod.valueOf(request.getMethod()), request.getRequestURI()));
         try {
             String viewName = handler.handleRequest(request, response);
 

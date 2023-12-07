@@ -1,0 +1,14 @@
+package front_pattern.mvc.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.List;
+
+public class UserListController implements Controller{
+    @Override
+    public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request.setAttribute("users", Arrays.asList());
+        return "/user/list.jsp";
+    }
+}
