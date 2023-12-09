@@ -6,7 +6,7 @@ import reflection.anotation.RequestMethod;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestMappingHandlerMapping {
+public class RequestMappingHandlerMapping implements HandlerMapping {
     private Map<HandlerKey, Controller> mappings = new HashMap<>();
 
     void init() {
