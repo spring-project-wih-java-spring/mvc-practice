@@ -50,7 +50,11 @@ public class DispatcherServlet extends HttpServlet {
                     .findFirst()
                     .orElseThrow(() -> new ServletException("No adapter for handler [" + handler + "]"));
 
-            ModelAndView modelAndView =  handlerAdapters.handle(request, response, handler);
+            ModelAndView modelAndView = handlerAdapters.stream()
+                    .filter(ha -> ha.supports(handler))
+                    .findFirst()
+                    .orElseThrow(() -> new ServletException("No adapter for handler [" + handler + "]"))
+                    .handle(request, response, handler);
 
             for (ViewResolver viewResolver: viewResolvers) {
                 View view = viewResolver.resolveView(modelAndView.getViewName());
