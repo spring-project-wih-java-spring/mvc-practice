@@ -1,6 +1,5 @@
 package front_pattern.mvc;
 
-import front_pattern.mvc.controller.Controller;
 import front_pattern.mvc.controller.HandlerKey;
 import front_pattern.mvc.view.*;
 import org.slf4j.Logger;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 @WebServlet("/") // 어떤 경로로 들어와도 DispatcherServlet 실행되게끔 함.
@@ -24,7 +22,7 @@ public class DispatcherServlet extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(DispatcherServlet.class);
 
-    private HandlerMapping handlerMapping;
+    private List<HandlerMapping> handlerMappings;
 
     private List<HandlerAdapter> handlerAdapters;
 
@@ -35,7 +33,8 @@ public class DispatcherServlet extends HttpServlet {
         RequestMappingHandlerMapping rmhm = new RequestMappingHandlerMapping();
         rmhm.init();
 
-        handlerMapping = rmhm;
+        AnnotationHandlerMapping ahm = new AnnotationHandlerMapping();
+        handlerMappings = Arrays.asList(rmhm, ahm);
 
         handlerAdapters = Arrays.asList(new SimpleControllerHandlerAdapter());
         viewResolvers = Collections.singletonList(new JspViewResolver());
@@ -45,9 +44,15 @@ public class DispatcherServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("DispatcherServlet service");
 
+        String requestURI = request.getRequestURI();
+        RequestMethod requestMethod = RequestMethod.valueOf(request.getMethod());
         try {
-            Object handler = handlerMapping.findHandler(new HandlerKey(RequestMethod.valueOf(request.getMethod()), request.getRequestURI()));
-
+            Object handler = handlerMappings.stream()
+                            .filter(hm -> hm.findHandler(new HandlerKey(requestMethod, requestURI)) != null)
+                                    .map(hm -> hm.findHandler(new HandlerKey(requestMethod, requestURI)))
+                                            .findFirst()
+                                                    .orElseThrow(() -> new ServletException("no handler for [" + requestMethod + "]"));
+            
             handlerAdapters.stream()
                     .filter(ha -> ha.supports(handler))
                     .findFirst()
