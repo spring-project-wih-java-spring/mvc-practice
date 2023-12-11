@@ -29,7 +29,7 @@ public class BeanFactory {
 
         // 파라미터
         List<Object> parameters = new ArrayList<>();
-        for (Class<?> typeClass : constructor.getParameterTypes()){
+        for (Class<?> typeClass : constructor.getParameterTypes()) {
             parameters.add(getParameterByClass(typeClass));
         }
 
@@ -38,12 +38,19 @@ public class BeanFactory {
     }
 
     private Constructor<?> findConstructor(Class<?> clazz) {
-        Set<Constructor> injectedConstructors = ReflectionUtils.getAllConstructors(clazz, ReflectionUtils.withAnnotation(Inject.class));
-        if(injectedConstructors.isEmpty()) {
-            return null;
-        }
-        return injectedConstructors.iterator().next();
+        return getConstructor(clazz);
     }
+
+    private Constructor<?> getConstructor(Class<?> clazz) {
+        Constructor<?> constructor = BeanFactoryUtils.getInjectedConstructor(clazz);
+
+        if (Objects.nonNull(constructor)) {
+            return constructor;
+        }
+
+        return clazz.getConstructors()[0];
+    }
+
 
     public <T> T getBean(Class<T> requiredType) {
         return (T) beans.get(requiredType);
