@@ -2,7 +2,10 @@ package di_practice.di;
 
 import di_practice.annotation.Controller;
 import di_practice.annotation.Service;
+import di_practice.controller.UserController;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.reflections.Reflections;
 
 import java.lang.annotation.Annotation;
@@ -28,5 +31,12 @@ class BeanFactoryTest {
             beans.addAll(reflections.getTypesAnnotatedWith(annotation));
         }
         return beans;
+    }
+
+    @Test
+    void diTest() {
+        UserController userController = beanFactory.getBean(UserController.class);
+        Assertions.assertThat(userController).isNotNull();
+        Assertions.assertThat(userController.getUserService()).isNotNull();
     }
 }
