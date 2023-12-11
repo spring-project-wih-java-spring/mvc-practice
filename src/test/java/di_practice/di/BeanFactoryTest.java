@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.reflections.Reflections;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ class BeanFactoryTest {
     private BeanFactory beanFactory;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws InvocationTargetException, InstantiationException, IllegalAccessException {
         reflections = new Reflections("di_practice");
         Set<Class<?>> preInstantiatedClass = getTypesAnnotatedWith(Controller.class, Service.class);
         beanFactory = new BeanFactory(preInstantiatedClass);

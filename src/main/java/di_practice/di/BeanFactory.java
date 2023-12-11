@@ -1,6 +1,7 @@
 package di_practice.di;
 
 import di_practice.annotation.Inject;
+import org.apache.jasper.tagplugins.jstl.core.If;
 import org.reflections.ReflectionUtils;
 
 import java.lang.reflect.Constructor;
@@ -11,12 +12,12 @@ public class BeanFactory {
     private final Set<Class<?>> preInstantiatedClass;
     private Map<Class<?>, Object> beans = new HashMap<>();
 
-    public BeanFactory(Set<Class<?>> preInstantiatedClass) {
+    public BeanFactory(Set<Class<?>> preInstantiatedClass) throws InvocationTargetException, InstantiationException, IllegalAccessException {
         this.preInstantiatedClass = preInstantiatedClass;
         initialize();
     }
 
-    private void initialize() {
+    private void initialize() throws InvocationTargetException, InstantiationException, IllegalAccessException {
         for (Class<?> clazz : preInstantiatedClass) {
             Object instance = createInstance(clazz);
             beans.put(clazz, instance);
@@ -50,6 +51,16 @@ public class BeanFactory {
 
         return clazz.getConstructors()[0];
     }
+
+    private Object getParameterByClass(Class<?> typeClass) throws InvocationTargetException, InstantiationException, IllegalAccessException {
+        Object instanceBean = getBean(typeClass);
+        if (Objects.nonNull(instanceBean)) {
+            return instanceBean;
+        }
+
+        return createInstance(typeClass);
+    }
+
 
 
     public <T> T getBean(Class<T> requiredType) {
